@@ -1,0 +1,9 @@
+.popup__submit-button_disabled {
+ border: solid 2px rgb(0,0,0);
+ opacity: 0.2;
+}
+
+.popup__submit-button_disabled:hover {
+  border: solid 2px rgb(0,0,0);
+  opacity: 0.2;
+}

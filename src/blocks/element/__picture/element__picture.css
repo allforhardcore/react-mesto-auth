@@ -1,0 +1,8 @@
+.element__picture {
+  height: 280px;
+  object-fit: cover;
+}
+
+.element__picture:hover {
+  cursor: pointer;
+}

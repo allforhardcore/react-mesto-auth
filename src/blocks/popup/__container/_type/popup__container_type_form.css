@@ -1,0 +1,16 @@
+.popup__container_type_form {
+  width: 430px;
+  height: fit-content;
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 470px) {
+  .popup__container_type_form {
+    width: calc(100% - 40px);
+    min-height: 320px;
+    justify-content: space-between;
+  }
+}

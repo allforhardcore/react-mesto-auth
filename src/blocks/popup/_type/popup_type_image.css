@@ -1,0 +1,13 @@
+.popup_type_image {
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 0.3s ease-out;
+}
