@@ -1,0 +1,15 @@
+.menu__line_active {
+    margin-bottom: -1px;
+  }
+  
+  .menu__line_active:nth-child(1) {
+    transform: translateY(1px) rotate(-45deg);
+  }
+  
+  .menu__line_active:nth-child(2) {
+    display: none;
+  }
+  
+  .menu__line_active:nth-child(3) {
+    transform: translateY(-1px) rotate(45deg);
+  }

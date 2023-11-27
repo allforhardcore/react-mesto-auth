@@ -1,0 +1,14 @@
+.authorization {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    margin: 0 auto;
+    padding: 60px 0 112px;
+  }
+  
+  @media (max-width: 631px) {
+    .authorization {
+      width: 260px;
+      padding: 40px 0 77px;
+    }
+  }
