@@ -5,38 +5,35 @@ import useValidation from "../hooks/useValidation";
 export default function Register({ onRegister }) {
 
   // Созданиее стейт переменных для валидации
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const {
     inputEmailValid,
     inputEmailError,
     inputEmailTouched
-  } = useValidation(Email, { isEmpty: true, Email: true }, 'Email');
+  } = useValidation(email, { isEmpty: true, email: true }, 'Email');
   const {
     inputPasswordValid,
     inputPasswordError,
     inputPasswordTouched
-  } = useValidation(Password, { isEmpty: true, minLength: 5 }, 'Password');
+  } = useValidation(password, { isEmpty: true, minLength: 5 }, 'Password');
 
 
-  // Устанавливаем Email пользователя
+  // Устанавка Email 
   function handleChangeEmail(event) {
     setEmail(event.target.value);
   }
 
-
-  // Устанавливаем пароль пользователя
+  // Установка пароля
   function handleChangePassword(event) {
     setPassword(event.target.value);
   }
 
-
+  // Запрет браузера на переход по адресу формы
   function handleSubmit(event) {
-    // Запрещаем браузеру переходить по адресу формы
     event.preventDefault();
-    onRegister(Email, Password);
+    onRegister(email, password);
   }
-
 
   return (
     <form
@@ -47,7 +44,7 @@ export default function Register({ onRegister }) {
     >
       <h2 className="authorization__title">Регистрация</h2>
       <input
-        value={Email || ''}
+        value={email || ''}
         onChange={handleChangeEmail}
         className={`authorization__field ${!inputEmailValid && inputEmailTouched && 'authorization__field_type_error'}`}
         placeholder="Email"
@@ -60,7 +57,7 @@ export default function Register({ onRegister }) {
         {inputEmailError}
       </span>
       <input
-        value={Password || ''}
+        value={password || ''}
         onChange={handleChangePassword}
         className={`authorization__field ${!inputPasswordValid && inputPasswordTouched && 'authorization__field_type_error'}`}
         placeholder="Пароль"

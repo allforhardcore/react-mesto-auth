@@ -1,0 +1,29 @@
+.profile-menu__link {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.profile-menu__link:hover {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+@media (max-width: 1080px) {
+  .profile-menu__link {
+    margin-right: 30px;
+  }
+}
+
+@media (max-width: 633px) {
+  .profile-menu__link {
+    margin: 18px 0 40px;
+  }
+}

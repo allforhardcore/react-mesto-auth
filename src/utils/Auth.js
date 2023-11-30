@@ -22,7 +22,7 @@ class AuthApi {
             },
             body: JSON.stringify({ email, password })
         })
-            .then(res => this.handleServerResponse(res));
+        .then(res => this.handleServerResponse(res));
     }
 
     // Вход 
@@ -50,6 +50,6 @@ class AuthApi {
     }
 }
 
-const authApi = new AuthApi('https://auth.nomoreparties.co');
+const Auth = new AuthApi('https://auth.nomoreparties.co');
 
-export default authApi;
+export default Auth;

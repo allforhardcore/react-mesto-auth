@@ -36,16 +36,20 @@ function Main({
       </section>
 
       <section className="elements">
-        {cards.map((card) => (
-          < Card
-            card={card}
-            key={card._id}
-            onCardClick={onCardClick}
-            onCardLike={onCardLike}
-            onCardDelete={onCardDelete}
-            onCardDeleteRequest={onCardDeleteRequest}
-          />
-        ))}
+        {cards && Array.isArray(cards) && cards.length > 0 ? (
+          cards.map((card) => (
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+              onCardDeleteRequest={onCardDeleteRequest}
+            />
+          ))
+        ) : (
+          <p>Нет карточек для отображения</p>
+        )}
       </section>
 
 

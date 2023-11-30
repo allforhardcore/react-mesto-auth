@@ -28,7 +28,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       title={'Обновить аватар'}
       name={'avatar'}
       buttonName={'Сохранить'}
-
     >
       <div className='popup__input-container'>
         <input

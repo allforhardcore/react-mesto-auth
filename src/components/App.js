@@ -49,18 +49,60 @@ function App() {
   // Проверка токена и авторизация 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    if (jwt) {
+    if (jwt && !isloggedIn) {
       Auth.checkToken(jwt)
         .then(data => {
           if (data) {
             setAuthUserEmail(data.data.email)
             setIsloggedIn(true)
-            navigate('/');
+            navigate('/', { replace: true });
           }
         })
         .catch(error => { console.log(error); })
     }
-  }, [navigate]);
+  }, [isloggedIn, navigate]);
+
+  // Обработчик регистрации пользователя
+  function handleuserRegister(email, password) {
+    Auth.userRegister(email, password)
+      .then(data => {
+        if (data) {
+          setIsTooltipSuccess(true);
+          navigate('/sign-in');
+        }
+      })
+      .catch(error => {
+        setIsTooltipSuccess(false);
+        console.log(error);
+      })
+      .finally(() => setIsTooltipPopupOpen(true));
+  }
+
+  // Вход в аккаунт
+  function handleuserLogin(email, password) {
+    Auth.userLogin(email, password)
+      .then(data => {
+        if (data.token) {
+          setAuthUserEmail(email)
+          setIsloggedIn(true);
+          localStorage.setItem('jwt', data.token);
+          navigate('/', { replace: true });
+        }
+      })
+      .catch(error => {
+        setIsTooltipPopupOpen(true);
+        setIsTooltipSuccess(false);
+        console.log(error)
+      })
+  }
+
+  // Выход из аккаунта
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    setAuthUserEmail('')
+    setIsloggedIn(false);
+    navigate('/sign-in');
+  }
 
 
   // Получение данных пользователя и карточек
@@ -107,6 +149,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsConfirmPopupOpen(false);
     setSelectedCard(null);
+    setIsTooltipPopupOpen(false);
 
   }
 
@@ -199,47 +242,7 @@ function App() {
       .catch(console.error)
   }
 
-  // Обработчик регистрации пользователя
-  function handleuserRegister(email, password) {
-    Auth.userRegister(email, password)
-      .then(data => {
-        if (data) {
-          setIsTooltipSuccess(true);
-          navigate('/sign-in');
-        }
-      })
-      .catch(error => {
-        setIsTooltipSuccess(false);
-        console.log(error);
-      })
-      .finally(() => setIsTooltipPopupOpen(true));
-  }
 
-  // Вход в аккаунт
-  function handleuserLogin(email, password) {
-    Auth.userLogin(email, password)
-      .then(data => {
-        if (data.token) {
-          setAuthUserEmail(email)
-          setIsloggedIn(true);
-          localStorage.setItem('jwt', data.token);
-          navigate('/');
-        }
-      })
-      .catch(error => {
-        setIsTooltipPopupOpen(true);
-        setIsTooltipSuccess(false);
-        console.log(error)
-      })
-  }
-
-  // Выход из аккаунта
-  const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    setAuthUserEmail('')
-    setIsloggedIn(false);
-    navigate('/sign-in');
-  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -289,15 +292,18 @@ function App() {
         <Routes>
           <Route path="/sign-up" element={<Register onRegister={handleuserRegister} />} />
           <Route path="/sign-in" element={<Login onLogin={handleuserLogin} />} />
-          <Route path="/" element={
-            isloggedIn ? (
-              <Navigate to="/" />
-            ) : (
-              <Navigate to="/sign-in" />
-            )
-          }
+          <Route
+            path="*"
+            element={
+              isloggedIn ? (
+                <Routes>
+                  <Route path="/" element={<Main />} />
+                </Routes>
+              ) : (
+                <Navigate to="/sign-in" replace />
+              )
+            }
           />
-
           <Route
             path="/"
             element={

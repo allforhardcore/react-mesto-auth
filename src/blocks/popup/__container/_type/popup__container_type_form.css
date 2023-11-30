@@ -1,5 +1,7 @@
 .popup__container_type_form {
   width: 430px;
+  display: flex;
+  flex-direction: column;
   height: fit-content;
   background-color: #fff;
   border-radius: 10px;

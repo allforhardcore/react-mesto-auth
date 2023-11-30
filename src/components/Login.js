@@ -5,33 +5,33 @@ import useValidation from "../hooks/useValidation";
 export default function Login({ onLogin }) {
 
   // Созданиее стейт переменных для валидации
-  const [isEmail, setIsEmail] = useState('');
-  const [isPassword, setIsPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const {
     inputEmailValid,
     inputEmailError,
     inputEmailTouched
-  } = useValidation(isEmail, { isEmpty: true, isEmail: true }, 'Email');
+  } = useValidation(email, { isEmpty: true, email: true }, 'Email');
   const {
     inputPasswordValid,
     inputPasswordError,
     inputPasswordTouched
-  } = useValidation(isPassword, { isEmpty: true, minLength: 5 }, 'Password');
+  } = useValidation(password, { isEmpty: true, minLength: 5 }, 'Password');
 
   // Устанавливаем Email пользователя
-  function handleChangeEmail(event) {
-    setIsEmail(event.target.value);
+  function handleSetEmail(event) {
+    setEmail(event.target.value);
   }
 
   // Устанавливаем пароль пользователя
-  function handleChangePassword(event) {
-    setIsPassword(event.target.value);
+  function handleSetPassword(event) {
+    setPassword(event.target.value);
   }
 
+  // Запрет браузера на переход по адресу формы
   function handleSubmit(event) {
-    // Запрещаем браузеру переходить по адресу формы
     event.preventDefault();
-    onLogin(isEmail, isPassword);
+    onLogin(email, password);
   }
 
 
@@ -44,8 +44,8 @@ export default function Login({ onLogin }) {
     >
       <h2 className="authorization__title">Вход</h2>
       <input
-        value={isEmail || ''}
-        onChange={handleChangeEmail}
+        value={email || ''}
+        onChange={handleSetEmail}
         className={`authorization__field ${!inputEmailValid && inputEmailTouched && 'authorization__field_type_error'}`}
         placeholder="Email"
         type="email"
@@ -57,8 +57,8 @@ export default function Login({ onLogin }) {
         {inputEmailError}
       </span>
       <input
-        value={isPassword || ''}
-        onChange={handleChangePassword}
+        value={password || ''}
+        onChange={handleSetPassword}
         className={`authorization__field ${!inputPasswordValid && inputPasswordTouched && 'authorization__field_type_error'}`}
         placeholder="Пароль"
         type="password"
