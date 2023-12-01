@@ -23,6 +23,9 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState({});
 
+
+
+
   // Стейты попапов
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -38,7 +41,6 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardToRemove, setСardToRemove] = useState({});
 
   // Стейты входа
   const [isloggedIn, setIsloggedIn] = useState(false);
@@ -60,7 +62,7 @@ function App() {
         })
         .catch(error => { console.log(error); })
     }
-  }, [isloggedIn, navigate]);
+  }, [navigate]);
 
   // Обработчик регистрации пользователя
   function handleuserRegister(email, password) {
@@ -109,21 +111,23 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [userData, cardsData] = await Promise.all([
-          api.getUserInfo(),
-          api.getInitialCards()
-        ]);
+        // Проверяем, авторизован ли пользователь
+        if (isloggedIn) {
+          const [userData, cardsData] = await Promise.all([
+            api.getUserInfo(),
+            api.getInitialCards()
+          ]);
 
-        setCurrentUser(userData);
-        setCards(cardsData);
+          setCurrentUser(userData);
+          setCards(cardsData);
+        }
       } catch (error) {
         console.error('Произошла ошибка при загрузке данных:', error);
       }
     };
 
     fetchData();
-  }, []);
-
+  }, [isloggedIn]);
 
 
   function handleCardClick(props) {
@@ -180,17 +184,17 @@ function App() {
 
   // Запроса удаления карточки
   function handleCardDeleteRequest(card) {
-    setСardToRemove(card);
+    setSelectedCard(card);
     setIsConfirmPopupOpen(true);
   }
 
   // Функция удаления карточки
   function handleCardDelete(evt) {
     evt.preventDefault();
-    api.removeCard(cardToRemove._id)
+    api.removeCard(selectedCard._id)
       .then(
         () => {
-          const newCards = cards.filter((elem) => elem !== cardToRemove);
+          const newCards = cards.filter((elem) => elem !== selectedCard);
           setCards(newCards);
           closeAllPopups();
         },
@@ -274,7 +278,7 @@ function App() {
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
           onSubmit={handleCardDelete}
-          cardToRemove={cardToRemove}
+          selectedCard={selectedCard}
         />
 
         <InfoTooltip
